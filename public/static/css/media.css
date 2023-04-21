@@ -1,0 +1,127 @@
+/* 1366*768--->>可视区域(1366*700)
+1500*960--->>可视区域(1500*?)
+1920*1080--->>可视区域(1920*940)
+ */
+/* 以下的划分暂不明确是否规范 */
+@media (max-width: 1499px) {
+	#app .sidebar-el-menu:not(.el-menu--collapse) {
+		width: 204px;
+	}
+
+	#app .header {
+		height: 60px;
+		font-size: 20px;
+	}
+
+	#app .header .logo {
+		line-height: 60px;
+	}
+
+	#app .header .collapse-btn {
+		line-height: 60px;
+	}
+
+	#app .header .header-user-con {
+		height: 60px;
+	}
+	
+	#app .header .user-avator img {
+		width: 35px;
+		height: 35px;
+	}
+	
+	#app .sidebar {
+		top: 60px;
+	}
+	
+	#app .container{
+		padding: 15px;
+	}
+	
+	#app .content-box {
+		top: 60px;
+		left: 204px;
+	}
+
+	#app .content-box.content-collapse {
+		left: 65px;
+	}
+}
+
+@media (min-width: 1500px) and (max-width: 1700px) {
+	#app .sidebar-el-menu:not(.el-menu--collapse) {
+		width: 230px;
+	}
+	
+	#app .header {
+		height: 65px;
+	}
+	
+	#app .header .logo {
+		line-height: 65px;
+	}
+	
+	#app .header .collapse-btn {
+		line-height: 65px;
+	}
+	
+	#app .header .header-user-con {
+		height: 65px;
+	}
+	
+	#app .sidebar {
+		top: 65px;
+	}
+	
+	#app .container{
+		padding: 20px;
+	}
+	
+	#app .content-box {
+		top: 65px;
+		left: 230px;
+	}
+	
+	#app .content-box.content-collapse {
+		left: 65px;
+	}
+}
+
+@media (min-width: 1700px) {
+	#app .sidebar-el-menu:not(.el-menu--collapse) {
+		width: 250px;
+	}
+	
+	#app .header {
+		height: 70px;
+	}
+	
+	#app .header .logo {
+		line-height: 70px;
+	}
+	
+	#app .header .collapse-btn {
+		line-height: 70px;
+	}
+	
+	#app .header .header-user-con {
+		height: 70px;
+	}
+	
+	#app .sidebar {
+		top: 70px;
+	}
+	
+	#app .container{
+		padding: 20px;
+	}
+	
+	#app .content-box {
+		top: 70px;
+		left: 250px;
+	}
+	
+	#app .content-box.content-collapse {
+		left: 65px;
+	}
+}

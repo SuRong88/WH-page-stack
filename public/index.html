@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<title>
+			<%= VUE_APP_TITLE %>
+		</title>
+		<meta charset="utf-8">
+		<meta name="referrer" content="never">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="Access-Control-Allow-Origin" content="*">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<script>
+			;
+			(function() {
+				if (!!window.ActiveXObject || 'ActiveXObject' in window) {
+					window.location = './prompt.html'
+				}
+			})()
+		</script>
+		<script src="<%= BASE_URL %>config.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="icon" href="<%= BASE_URL %>favicon.ico">
+		<link rel="stylesheet" href="<%= BASE_URL %>static/css/media.css">
+		<link rel="stylesheet" href="<%= BASE_URL %>static/css/loading.css">
+		<link rel="stylesheet" href="//at.alicdn.com/t/font_2126955_3rlwbn6306q.css">
+	</head>
+	<body>
+		<noscript>
+			<strong>We're sorry but vms doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+		</noscript>
+		<div id="app">
+			<div class="first-loading-wrp">
+				<div class="loading-wrp">
+					<span class="dot dot-spin">
+						<i></i>
+						<i></i>
+						<i></i>
+						<i></i>
+					</span>
+				</div>
+				<h1>
+					<%= VUE_APP_TITLE %>
+				</h1>
+			</div>
+			<!-- built files will be auto injected -->
+	</body>
+</html>

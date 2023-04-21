@@ -1,0 +1,10 @@
+const config = {};
+config.applyPermissionBtn = false;
+config.HOST = 'https://test-oss.yipintemian.com/oss/hbadmin';
+config.HOST2 = 'https://test2.yipintemian.com';
+// config.HOST = 'https://oss.yipintemian.com/oss/hbadmin';
+// config.HOST2 = 'https://www.yipintemian.com';
+config.WXAPI = 'http://42.192.141.179:3004';
+// config.WXAPI = 'localhost:3004';
+// config.HOST = 'http://192.168.3.206/oss/hbadmin';
+window.$config = config;
