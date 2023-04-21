@@ -16,6 +16,9 @@ export default {
     mounted() {
         ScrollPosition.get.call(this);
     },
+    activated() {
+        ScrollPosition.get.call(this);
+    },
     methods: {
         jump() {
             this.$router.push({

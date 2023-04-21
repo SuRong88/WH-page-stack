@@ -22,6 +22,9 @@ export default {
         const { id } = this.$route.query;
         this.id = id;
     },
+    activated() {
+        ScrollPosition.goTop.call(this);
+    },
     mounted() {
         ScrollPosition.goTop.call(this);
     },

@@ -11,8 +11,8 @@
 			</div> -->
 		<!-- </div> -->
 		<transition name="fade-transform" mode="out-in">
-			<router-view></router-view>
-			<!-- <keep-alive :include="tagsList"><router-view></router-view></keep-alive> -->
+			<!-- <router-view></router-view> -->
+			<keep-alive><router-view></router-view></keep-alive>
 		</transition>
 		<v-tabbar></v-tabbar>
 		<v-tabbar hidden></v-tabbar>

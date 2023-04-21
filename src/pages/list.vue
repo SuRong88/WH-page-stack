@@ -38,6 +38,9 @@ export default {
             this.setPosition();
         }, 500);
     },
+    activated() {
+        this.setPosition();
+    },
     mounted() {
         this.setPosition();
     },
