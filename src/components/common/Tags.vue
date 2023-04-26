@@ -57,7 +57,7 @@ export default {
 		// 设置标签
 		setTags(route) {
 			const isExist = this.tagsList.some(item => {
-				return item.path === route.path;
+				return item.name === route.name;
 			});
 			if (!isExist) {
 				if (this.tagsList.length >= 8) {
@@ -65,11 +65,16 @@ export default {
 				}
 				this.tagsList.push({
 					title: route.meta.title,
-					path: route.path,
-					name: route.matched[1].components.default.name
+					path: route.fullPath,
+					name: route.name
+					// name: route.matched[1].components.default.name
 				});
 			}
-			this.$Bus.$emit('tags', this.tagsList);
+			let tags = [];
+            for (let i = 0; i < this.tagsList.length; i++) {
+                this.tagsList[i].name && tags.push(this.tagsList[i].name);
+            }
+			// this.$Bus.$emit('tags', tags);
 		},
 		handleTags(command) {
 			command === 'other' ? this.closeOther() : this.closeAll();
@@ -82,7 +87,14 @@ export default {
 	},
 	watch: {
 		$route(newValue, oldValue) {
-			this.setTags(newValue);
+			// if(newValue.query.refresh) {
+			// 	console.log("don't do anything");
+			// 	return;
+			// }
+
+			// console.info(1, 'watch');
+
+			// this.setTags(newValue);
 		}
 	},
 	created() {
@@ -110,7 +122,14 @@ export default {
 
 <style>
 .tags {
-	position: relative;
+	z-index: 99;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	opacity: 0.7;
+	/* display: none; */
+	/* position: relative; */
 	height: 40px;
 	overflow: hidden;
 	background: #fff;

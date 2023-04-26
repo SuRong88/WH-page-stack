@@ -1,70 +1,67 @@
 <template>
-    <div class="page-list" v-loading="loading">
+    <div class="page page-list" v-loading="loading">
+        <el-input v-model="name"></el-input>
+        <el-input v-model="num"></el-input>
         <li v-for="item in list" class="item">
+            <div class="item-scroll">
+                <p v-for="num in 20" class="">{{ num }}</p>
+            </div>
             <button class="btn" @click="jumpDetail(item.id)">详情---{{ item.id }}</button>
         </li>
     </div>
 </template>
 <script>
-import ScrollPosition from '@/lib/scrollPosition';
-let rememberPostion = false;
+import keepAliveMixin from '@/mixins/keepAlive';
 export default {
+    name: 'List',
+    mixins: [keepAliveMixin],
     data() {
         return {
             loading: true,
+            name: '',
+            num: '',
             list: []
         };
     },
-    beforeRouteEnter(to, from, next) {
-        console.log('from.path', from.path);
-        console.log('rememberPostion', rememberPostion);
-        if (from.path === '/detail') {
-            rememberPostion = true;
-        } else {
-            rememberPostion = false;
-        }
-        next();
-    },
     created() {
         console.log('list created');
-        setTimeout(() => {
-            for (let index = 0; index < 4; index++) {
-                const item = {
-                    id: index + 1
-                };
-                this.list.push(item);
-            }
-            this.loading = false;
-            this.setPosition();
-        }, 500);
-    },
-    activated() {
-        this.setPosition();
+        this.init();
     },
     mounted() {
-        this.setPosition();
+        console.log('list mounted');
     },
     methods: {
+        init() {
+            this.loading = true;
+            const { id } = this.$route.query;
+            this.id = id;
+
+            this.name = '';
+            this.num = '';
+
+            setTimeout(() => {
+                for (let index = 0; index < 4; index++) {
+                    const item = {
+                        id: index + 1
+                    };
+                    this.list.push(item);
+                }
+                this.loading = false;
+            }, 500);
+        },
         jumpDetail(id) {
             this.$router.push({
                 path: '/detail',
                 query: {
-                    id
+                    id,
+                    refresh: 1
                 }
             });
         },
-        setPosition() {
-            console.log('rememberPostion', rememberPostion);
-            if (rememberPostion) {
-                ScrollPosition.get.call(this);
-            } else {
-                ScrollPosition.goTop.call(this);
-            }
-        }
     }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .page-list {
     min-height: 100%;
 }
@@ -75,6 +72,13 @@ export default {
 
     &:nth-child(n + 2) {
         margin-top: 10px;
+    }
+
+    .item-scroll {
+        background-color: pink;
+        width: 40%;
+        height: 80%;
+        overflow-y: scroll;
     }
 
     .btn {

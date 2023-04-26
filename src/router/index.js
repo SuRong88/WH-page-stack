@@ -27,24 +27,39 @@ export const routes = [
         },
         children: [
             {
+                name: 'Index',
                 path: 'index',
                 component: resolve => require(['@/pages/index'], resolve),
                 meta: {
-                    title: '首页'
+                    title: '首页',
+                    keepAlive: true
                 }
             },
             {
+                name: 'List',
                 path: 'list',
                 component: resolve => require(['@/pages/list'], resolve),
                 meta: {
-                    title: '列表'
+                    title: '列表',
+                    keepAlive: true
                 }
             },
             {
+                name: 'Detail',
                 path: 'detail',
                 component: resolve => require(['@/pages/detail'], resolve),
                 meta: {
-                    title: '详情'
+                    title: '详情',
+                    keepAlive: true
+                }
+            },
+            {
+                name: 'Address',
+                path: 'address',
+                component: resolve => require(['@/pages/address'], resolve),
+                meta: {
+                    title: '地址',
+                    keepAlive: false
                 }
             }
         ]
@@ -67,11 +82,21 @@ const router = new Router({
     // }
 });
 
+sessionStorage.removeItem('homeInit');
+sessionStorage.removeItem('firstTag');
+
 router.beforeEach((to, from, next) => {
-    console.log(to.path);
+    console.info(2, to);
     document.title = to.meta.title;
 	// 保存滚动条位置
 	ScrollPosition.save(from.path);
+    if(to.meta && to.meta.keepAlive) {
+        if(!sessionStorage.getItem('homeInit')) {
+            console.log('初始化设置tags');
+            sessionStorage.setItem('firstTag', to.name)
+        }
+        Vue.prototype.$Bus.$emit('tags', to.name)
+    }
     next();
 });
 

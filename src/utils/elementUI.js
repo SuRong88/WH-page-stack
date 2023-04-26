@@ -50,7 +50,8 @@ import {
     MessageBox,
     Message,
     Notification,
-		Drawer
+		Drawer,
+    Divider
 } from 'element-ui';
 
 export default Vue => {
@@ -106,6 +107,7 @@ export default Vue => {
     Vue.use(Image);
     Vue.use(Backtop);
 		Vue.use(Drawer);
+		Vue.use(Divider);
     Vue.use(Loading.directive);
 
     Vue.prototype.$loading = Loading.service;

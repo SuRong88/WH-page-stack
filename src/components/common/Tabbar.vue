@@ -1,18 +1,15 @@
 <template>
-    <div :class="['tabbar', {'is-hidden': hidden}]">
-        <div class="tabbar-item" v-for="item in tabbar" @click="jump(item.path)">
-            {{ item.name }}
+    <div class="tabbar-comp">
+        <div class="tabbar is-hidden"></div>
+        <div class="tabbar">
+            <div class="tabbar-item" v-for="item in tabbar" @click="jump(item.path)">
+                {{ item.name }}
+            </div>
         </div>
     </div>
 </template>
 <script>
 export default {
-    props: {
-        hidden: {
-            type: Boolean,
-            default: false
-        }
-    },
     data() {
         return {
             tabbar: [
@@ -23,33 +20,35 @@ export default {
                 {
                     name: '页面二',
                     path: '/list'
-
                 },
                 {
                     name: '页面三',
-                    path: '/detail?id=666'
+                    path: '/detail?id=3'
                 }
             ]
         };
     },
     methods: {
         jump(path) {
-            this.$router.push(path)
+            this.$router.push(path);
         }
-    },
+    }
 };
 </script>
 <style lang="less">
 .tabbar {
     background-color: aquamarine;
     position: fixed;
+    z-index: 9999;
     left: 0;
     bottom: 0;
     padding-bottom: calc(0px + constant(safe-area-inset-bottom));
     padding-bottom: calc(0px + env(safe-area-inset-bottom));
     border-top: 1px solid black;
     width: 100vw;
-    height: 60px;
+    // height: 60px;
+    height: calc(60px + constant(safe-area-inset-bottom));
+    height: calc(60px + env(safe-area-inset-bottom));
     display: flex;
 
     &.is-hidden {
