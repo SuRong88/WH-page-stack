@@ -20,7 +20,7 @@
             <el-form-item label="地址">
                 <div class="flex">
                     <el-input v-model="formData.address" disabled></el-input>
-                    <el-button class="ml10"  @click="jumpAddress">选择</el-button>
+                    <el-button class="ml10" @click="jumpAddress">选择</el-button>
                 </div>
             </el-form-item>
         </el-form>
@@ -43,7 +43,6 @@ export default {
     mixins: [keepAliveMixin],
     data() {
         return {
-            firstActivatedInPage: true,
             loading: false,
             formData: {
                 id: '',
@@ -83,11 +82,12 @@ export default {
         console.log('detail mounted');
     },
     activated() {
-        if (!this.firstActivatedInPage) {
+        console.log(2222222222, this.firstActivatedForPage$);
+        if (!this.firstActivatedForPage$) {
             console.log('detail activated 检查地址');
             this.checkSelectAddress();
         } else {
-            this.firstActivatedInPage = false
+            this.firstActivatedForPage$ = false;
         }
     },
     methods: {

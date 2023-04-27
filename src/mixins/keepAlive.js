@@ -3,6 +3,7 @@ export default {
     inject: ['reload'],
     data() {
         return {
+            firstActivatedForPage$: true,
             firstActivated: true,
             fullPath: ''
         };
@@ -14,6 +15,8 @@ export default {
 
         const handleQueryRefresh = () => {
             if (query.refresh) {
+                this.firstActivatedForPage$ = true;
+
                 query = JSON.parse(JSON.stringify(query));
                 delete query.refresh;
                 this.$router.replace({
@@ -28,7 +31,7 @@ export default {
             handleQueryRefresh();
             this.fullPath = fullPath;
             this.firstActivated = false;
-            // this.setPosition(true); // 在全局mixin返顶
+            this.setPosition(true);
             return;
         }
 

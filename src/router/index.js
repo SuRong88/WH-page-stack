@@ -88,11 +88,25 @@ router.beforeEach((to, from, next) => {
     console.log(to, from);
     const fromMeta = from.meta || {};
     const toMeta = to.meta || {};
+    const toQuery = to.query;
     const toName = to.name;
     // document.title = toMeta.title;
     if (fromMeta.keepAlive) {
         ScrollPosition.save(from.path);
     }
+
+    // if (toQuery.refresh) {
+    //     if (!toName) {
+    //         console.error(`path: ${to.path}缺少name配置`);
+    //         next();
+    //         return;
+    //     }
+    //     delete to.query.refresh;
+    //     Vue.prototype.$Bus.$emit('delTag', toName);
+    //     next(to);
+    //     return;
+    // }
+
     if (toMeta.keepAlive) {
         // 保存滚动条位置
         if (!toName) {
@@ -104,7 +118,7 @@ router.beforeEach((to, from, next) => {
             console.log('初始化设置tags');
             sessionStorage.setItem('firstKeepAliveTag', toName);
         }
-        Vue.prototype.$Bus.$emit('tags', toName);
+        Vue.prototype.$Bus.$emit('addTag', toName);
     }
     next();
 });

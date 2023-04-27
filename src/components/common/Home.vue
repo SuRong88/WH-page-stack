@@ -47,19 +47,19 @@ export default {
                 }
             });
         },
-        // 设置标签
-        setTags(tag) {
+        // 添加标签
+        addTag(tag) {
             const isExist = this.tagsList.includes(tag);
             if (!isExist) {
                 if (this.tagsList.length >= 8) {
                     this.tagsList.shift();
                 }
                 this.tagsList.push(tag);
-                console.log(`%c 添加的tag: ${tag}`, 'color: red;');
+                console.log(`%c 添加tag: ${tag}`, 'color: red;');
             }
-			// const existIndex = this.tagsList.findIndex(item => item === tag);
-            // if (existIndex !== -1) {
-            //     this.tagsList.splice(existIndex, 1)
+			// const tagIndex = this.tagsList.findIndex(item => item === tag);
+            // if (tagIndex !== -1) {
+            //     this.tagsList.splice(tagIndex, 1)
 			// 	this.tagsList.push(tag)
             // } else {
 			// 	if (this.tagsList.length >= 2) {
@@ -67,17 +67,28 @@ export default {
             //     }
             //     this.tagsList.push(tag);
 			// }
+        },
+        delTag(tag) {
+            const tagIndex = this.tagsList.findIndex(item => item === tag);
+            if (tagIndex !== -1) {
+                this.tagsList.splice(tagIndex, 1)
+                console.log(`%c 移除tag: ${tag}`, 'color: red;');
+            }
         }
     },
     created() {
         const tag = sessionStorage.getItem('firstKeepAliveTag');
-        tag && this.setTags(tag);
+        tag && this.addTag(tag);
 
         // 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。
-        this.$Bus.$on('tags', tag => {
+        this.$Bus.$on('addTag', tag => {
             // this.tagsList = tag;
-            console.log('$on', tag);
-            this.setTags(tag);
+            // console.log('addTag', tag);
+            this.addTag(tag);
+        });
+        this.$Bus.$on('delTag', tag => {
+            // console.log('delTag', tag);
+            this.delTag(tag);
         });
     }
 };
