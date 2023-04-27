@@ -11,10 +11,10 @@
     </div>
 </template>
 <script>
-import keepAliveMixin from '@/mixins/keepAlive';
+import notKeepAliveMixin from '@/mixins/notKeepAlive';
 export default {
     inject: ['reload'],
-    mixins: [keepAliveMixin],
+    mixins: [notKeepAliveMixin],
     data() {
         return {
             loading: false,

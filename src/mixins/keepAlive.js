@@ -45,13 +45,13 @@ export default {
         console.log('keepAlive mixin');
     },
     methods: {
-        // setPosition(isReset = true) {
-        //     console.log('isReset keepAlive', isReset);
-        //     if (isReset) {
-        //         ScrollPosition.goTop.call(this);
-        //     } else {
-        //         ScrollPosition.get.call(this);
-        //     }
-        // }
+        setPosition(isReset = true) {
+            console.log('isReset keepAlive', isReset);
+            if (isReset) {
+                ScrollPosition.goTop.call(this);
+            } else {
+                ScrollPosition.get.call(this);
+            }
+        }
     }
 };
