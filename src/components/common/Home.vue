@@ -81,6 +81,7 @@ export default {
                     this.tagsList.shift();
                 }
                 this.tagsList.push(tag);
+                console.log(`%c 添加的tag: ${tag}`, 'color: red;');
             }
 			// const existIndex = this.tagsList.findIndex(item => item === tag);
             // if (existIndex !== -1) {

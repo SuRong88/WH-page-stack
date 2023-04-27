@@ -68,7 +68,7 @@ export const routes = [
 
 const router = new Router({
     mode: 'history',
-    routes,
+    routes
     // scrollBehavior(to, from, savedPosition) {
     //     console.log('savedPosition:', savedPosition);
     //     if (savedPosition) {
@@ -86,18 +86,32 @@ sessionStorage.removeItem('homeInit');
 sessionStorage.removeItem('firstTag');
 
 router.beforeEach((to, from, next) => {
-    console.info(2, to);
+    // console.info(2, JSON.parse(JSON.stringify(to)), to.name);
     document.title = to.meta.title;
-	// 保存滚动条位置
-	ScrollPosition.save(from.path);
-    if(to.meta && to.meta.keepAlive) {
-        if(!sessionStorage.getItem('homeInit')) {
-            console.log('初始化设置tags');
-            sessionStorage.setItem('firstTag', to.name)
+    // 保存滚动条位置
+    ScrollPosition.save(from.path);
+    if (to.meta && to.meta.keepAlive) {
+        // console.log(1, to.matched[1].components.default().then(res => {
+        //     console.log(11,res);
+        // })).catch(err=> {
+        //     console.log(111,err);
+        // });
+        // const toName = to.matched[1].components.default.name;
+        const toName = to.name;
+        if (!toName) {
+            console.error(`path: ${to.path}缺少name配置`);
+            next();
+            return;
         }
-        Vue.prototype.$Bus.$emit('tags', to.name)
+        if (!sessionStorage.getItem('homeInit')) {
+            console.log('初始化设置tags');
+            sessionStorage.setItem('firstTag', toName);
+        }
+        Vue.prototype.$Bus.$emit('tags', toName);
     }
     next();
+    // Vue.prototype.$nextTick(next)
+    // setTimeout(next, 2000);
 });
 
 export default router;
