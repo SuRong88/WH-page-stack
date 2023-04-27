@@ -4,7 +4,7 @@
         <el-input v-model="num"></el-input>
         <li v-for="item in list" class="item">
             <div class="item-scroll">
-                <p v-for="num in 20" class="">{{ num }}</p>
+                <!-- <p v-for="num in 20" class="">{{ num }}</p> -->
             </div>
             <button class="btn" @click="jumpDetail(item.id)">详情---{{ item.id }}</button>
         </li>

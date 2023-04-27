@@ -7,6 +7,7 @@ import App from './App.vue';
 import api from './api/index';
 import router from './router';
 import store from './store';
+import globalMixin from './mixins/global';
 
 import request from './utils/request';
 import formCheck from './utils/formCheck';
@@ -31,6 +32,7 @@ Vue.use(layout);
 Vue.use(directive);
 Vue.use(clipboard);
 Vue.use(ElementUI);
+Vue.mixin(globalMixin);
 
 Vue.component('DateRangePicker', DateRangePicker)
 
@@ -38,6 +40,7 @@ Vue.component('DateRangePicker', DateRangePicker)
 Vue.prototype.$Bus = new Vue();
 
 window.vm = new Vue({
+    // mixins: [globalMixin],
     router,
     store,
     render: h => h(App)

@@ -101,7 +101,7 @@ export default {
                     .toString()
                     .slice(0, 11);
                 this.loading = false;
-            }, 300);
+            }, 500);
         },
         jumpList(refresh) {
             const query = {};

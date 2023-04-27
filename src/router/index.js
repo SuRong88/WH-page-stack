@@ -82,36 +82,31 @@ const router = new Router({
     // }
 });
 
-sessionStorage.removeItem('homeInit');
-sessionStorage.removeItem('firstTag');
-
+sessionStorage.removeItem('firstKeepAliveTag');
+document.title = '';
 router.beforeEach((to, from, next) => {
-    // console.info(2, JSON.parse(JSON.stringify(to)), to.name);
-    document.title = to.meta.title;
-    // 保存滚动条位置
-    ScrollPosition.save(from.path);
-    if (to.meta && to.meta.keepAlive) {
-        // console.log(1, to.matched[1].components.default().then(res => {
-        //     console.log(11,res);
-        // })).catch(err=> {
-        //     console.log(111,err);
-        // });
-        // const toName = to.matched[1].components.default.name;
-        const toName = to.name;
+    console.log(to, from);
+    const fromMeta = from.meta || {};
+    const toMeta = to.meta || {};
+    const toName = to.name;
+    // document.title = toMeta.title;
+    if (fromMeta.keepAlive) {
+        ScrollPosition.save(from.path);
+    }
+    if (toMeta.keepAlive) {
+        // 保存滚动条位置
         if (!toName) {
             console.error(`path: ${to.path}缺少name配置`);
             next();
             return;
         }
-        if (!sessionStorage.getItem('homeInit')) {
+        if (!sessionStorage.getItem('firstKeepAliveTag')) {
             console.log('初始化设置tags');
-            sessionStorage.setItem('firstTag', toName);
+            sessionStorage.setItem('firstKeepAliveTag', toName);
         }
         Vue.prototype.$Bus.$emit('tags', toName);
     }
     next();
-    // Vue.prototype.$nextTick(next)
-    // setTimeout(next, 2000);
 });
 
 export default router;

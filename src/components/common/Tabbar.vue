@@ -14,16 +14,20 @@ export default {
         return {
             tabbar: [
                 {
-                    name: '页面一',
+                    name: '首页',
                     path: '/index'
                 },
                 {
-                    name: '页面二',
+                    name: '列表',
                     path: '/list'
                 },
                 {
-                    name: '页面三',
+                    name: '详情',
                     path: '/detail?id=3'
+                },
+                {
+                    name: '地址',
+                    path: '/address'
                 }
             ]
         };

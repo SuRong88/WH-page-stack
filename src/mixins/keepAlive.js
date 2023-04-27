@@ -1,14 +1,14 @@
 import ScrollPosition from '@/lib/scrollPosition';
 export default {
     inject: ['reload'],
-	data() {
-		return {
-			firstActivated: true,
-            fullPath: '',
-		}
-	},
+    data() {
+        return {
+            firstActivated: true,
+            fullPath: ''
+        };
+    },
     activated() {
-        const routeName = this.$route.name
+        const routeName = this.$route.name;
         console.log(`${routeName} activated`, this.firstActivated);
         let { fullPath, query } = this.$route;
 
@@ -22,13 +22,13 @@ export default {
                 console.log(this.$route.fullPath);
                 fullPath = this.$route.fullPath;
             }
-        }
+        };
 
         if (this.firstActivated) {
             handleQueryRefresh();
             this.fullPath = fullPath;
             this.firstActivated = false;
-            this.setPosition(true);
+            // this.setPosition(true); // 在全局mixin返顶
             return;
         }
 
@@ -41,14 +41,17 @@ export default {
             this.setPosition(false);
         }
     },
-	methods: {
-        setPosition(isReset = true) {
-            console.log('isReset', isReset);
-            if (isReset) {
-                ScrollPosition.goTop.call(this);
-            } else {
-                ScrollPosition.get.call(this);
-            }
-        },
-	}
-}
+    created() {
+        console.log('keepAlive mixin');
+    },
+    methods: {
+        // setPosition(isReset = true) {
+        //     console.log('isReset keepAlive', isReset);
+        //     if (isReset) {
+        //         ScrollPosition.goTop.call(this);
+        //     } else {
+        //         ScrollPosition.get.call(this);
+        //     }
+        // }
+    }
+};

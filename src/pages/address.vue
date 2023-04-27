@@ -6,13 +6,15 @@
             <el-button class="ml10" @click="search">搜索</el-button>
         </div>
         <ul class="address-list">
-            <li class="item" v-for="item in list" @click="clickItem(item)">{{ item }}</li>
+            <li class="item" v-for="item in 100" @click="clickItem(item)">{{ item }}</li>
         </ul>
     </div>
 </template>
 <script>
+import keepAliveMixin from '@/mixins/keepAlive';
 export default {
     inject: ['reload'],
+    mixins: [keepAliveMixin],
     data() {
         return {
             loading: false,

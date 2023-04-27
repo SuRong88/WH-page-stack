@@ -1,39 +1,17 @@
 <template>
     <div class="wrapper">
-        <!-- <v-header></v-header> -->
-        <!-- <v-sidebar></v-sidebar> -->
-        <!-- <div class="content-box" :class="{ 'content-collapse': collapse }"> -->
-        <!-- <v-tags></v-tags> -->
-        <!-- <div class="content" style="position: relative;">
-				<transition name="fade-transform" mode="out-in">
-					<keep-alive :include="tagsList"><router-view></router-view></keep-alive>
-				</transition>
-			</div> -->
-        <!-- </div> -->
-        <!-- <transition name="fade-transform" mode="out-in">
-            <keep-alive><router-view v-if="$route.meta.keepAlive"></router-view></keep-alive>
-        </transition>
-        <transition name="fade-transform" mode="out-in">
-            <router-view v-if="!$route.meta.keepAlive"></router-view>
-        </transition> -->
         <v-navbar></v-navbar>
-        <transition name="fade-transform" mode="out-in">
+        <!-- <transition name="fade-transform" mode="out-in"> -->
             <keep-alive :include="tagsList"><router-view v-if="$route.meta.keepAlive && isRouterAlive"></router-view></keep-alive>
-        </transition>
-        <transition name="fade-transform" mode="out-in">
+        <!-- </transition> -->
+        <!-- <transition name="fade-transform" mode="out-in"> -->
             <router-view v-if="!$route.meta.keepAlive && isRouterAlive"></router-view>
-        </transition>
-        <!-- <router-view v-if="isRouterAlive"></router-view> -->
+        <!-- </transition> -->
         <v-tabbar></v-tabbar>
-        <!-- <v-tabbar hidden></v-tabbar> -->
-        <!-- <v-tags></v-tags> -->
     </div>
 </template>
 
 <script>
-import vHeader from './Header.vue';
-import vSidebar from './Sidebar.vue';
-import vTags from './Tags.vue';
 import vNavbar from './Navbar.vue';
 import vTabbar from './Tabbar.vue';
 
@@ -46,15 +24,11 @@ export default {
     data() {
         return {
             tagsList: [],
-            collapse: false,
             isRouterAlive: true
         };
     },
     components: {
         vNavbar,
-        // vHeader,
-        // vSidebar,
-        // vTags,
         vTabbar
     },
     methods: {
@@ -96,13 +70,8 @@ export default {
         }
     },
     created() {
-        this.$Bus.$on('collapse-content', msg => {
-            this.collapse = msg;
-        });
-
-        const tag = sessionStorage.getItem('firstTag');
-        this.setTags(tag);
-        sessionStorage.setItem('homeInit', true);
+        const tag = sessionStorage.getItem('firstKeepAliveTag');
+        tag && this.setTags(tag);
 
         // 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。
         this.$Bus.$on('tags', tag => {
