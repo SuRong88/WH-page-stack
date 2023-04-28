@@ -43,6 +43,7 @@ export default {
     mixins: [keepAliveMixin],
     data() {
         return {
+            firstActivatedInPage: true,
             loading: false,
             formData: {
                 id: '',
@@ -56,38 +57,24 @@ export default {
         $route: {
             deep: true,
             handler(newValue, oldValue) {
+                console.log(newValue, oldValue);
                 const isJumpCurrentPage = newValue.path === '/detail' && oldValue.path === '/detail';
-                const isNotRefresh = newValue.query.refresh || oldValue.query.refresh;
-                if (isJumpCurrentPage && !isNotRefresh) {
+                if (isJumpCurrentPage) {
                     console.log('当前页变化');
                     this.reload(newValue.name);
                 }
-                // console.log('Detail watch', newValue.path === '/detail');
-                // const isCurrentPage = newValue.path === '/detail';
-                // const isRefresh = !!newValue.refresh;
-                // const isNewId = newValue.query.id !== this.formData.id;
-                // if (isCurrentPage && !isRefresh && isNewId) {
-                //     // this.reload(newValue.name);
-                // } else {
-                //     console.log('0000');
-                // }
             }
         }
     },
     created() {
-        console.log('detail created');
         this.init();
     },
-    mounted() {
-        console.log('detail mounted');
-    },
     activated() {
-        console.log(2222222222, this.firstActivatedForPage$);
-        if (!this.firstActivatedForPage$) {
-            console.log('detail activated 检查地址');
+        if (!this.firstActivatedInPage) {
+            console.log('Detail activated 检查地址');
             this.checkSelectAddress();
         } else {
-            this.firstActivatedForPage$ = false;
+            this.firstActivatedInPage = false;
         }
     },
     methods: {
@@ -112,15 +99,20 @@ export default {
             });
         },
         jumpDetail(id) {
+            // if(id)
+
             const query = JSON.parse(JSON.stringify(this.$route.query));
             query.id = id;
             this.$router.push({
-                query
+                query,
             });
         },
         jumpAddress() {
             this.$router.push({
-                path: '/address'
+                path: '/address',
+                query: {
+                    refresh: 1
+                }
             });
         },
         checkSelectAddress() {

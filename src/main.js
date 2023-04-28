@@ -6,7 +6,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import api from './api/index';
 import router from './router';
-import store from './store';
+// import store from './store';
 
 import request from './utils/request';
 import formCheck from './utils/formCheck';
@@ -39,6 +39,6 @@ Vue.prototype.$Bus = new Vue();
 
 window.vm = new Vue({
     router,
-    store,
+    // store,
     render: h => h(App)
 }).$mount('#app');

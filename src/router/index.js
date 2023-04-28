@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from '@/store';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import ScrollPosition from '@/lib/scrollPosition';
-NProgress.configure({
-    showSpinner: false
-});
+// NProgress.configure({
+//     showSpinner: false
+// });
+NProgress.inc(0.2);
+NProgress.configure({ easing: 'ease', speed: 500, showSpinner: false });
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
@@ -54,7 +55,7 @@ export const routes = [
                 }
             },
             {
-                name: 'Address',
+                // name: 'Address',
                 path: 'address',
                 component: resolve => require(['@/pages/address'], resolve),
                 meta: {
@@ -85,32 +86,45 @@ const router = new Router({
 sessionStorage.removeItem('firstKeepAliveTag');
 document.title = '';
 router.beforeEach((to, from, next) => {
-    console.log(to, from);
-    const fromMeta = from.meta || {};
+    NProgress.start();
+    // console.log(to, from);
+    console.log(JSON.parse(JSON.stringify(to.query)), JSON.parse(JSON.stringify(from.query)));
     const toMeta = to.meta || {};
     const toQuery = to.query;
     const toName = to.name;
-    // document.title = toMeta.title;
+    const toPath = to.path;
+    const fromMeta = from.meta || {};
+    const fromPath = from.path;
+
+    // query.refresh判断
+    if (toQuery.refresh) {
+        delete to.query.refresh;
+        if (toPath === fromPath) {
+            console.error(`[keepAlive error] path: ${to.path}相同不允许使用query.refresh`);
+            next();
+            return;
+        }
+        if (toMeta.keepAlive) {
+            toName && Vue.prototype.$Bus.$emit('delTag', toName);
+            Vue.prototype.$nextTick(() => {
+                next(to);
+            });
+        } else {
+            next(to);
+        }
+        return;
+    }
+
+    // 保存滚动条位置
     if (fromMeta.keepAlive) {
+        console.log(`%c 保存${from.path}的位置`, 'color: green;');
         ScrollPosition.save(from.path);
     }
 
-    // if (toQuery.refresh) {
-    //     if (!toName) {
-    //         console.error(`path: ${to.path}缺少name配置`);
-    //         next();
-    //         return;
-    //     }
-    //     delete to.query.refresh;
-    //     Vue.prototype.$Bus.$emit('delTag', toName);
-    //     next(to);
-    //     return;
-    // }
-
+    // 设置include
     if (toMeta.keepAlive) {
-        // 保存滚动条位置
         if (!toName) {
-            console.error(`path: ${to.path}缺少name配置`);
+            console.error(`[keepAlive error] path: ${to.path}缺少name配置`);
             next();
             return;
         }
@@ -122,5 +136,7 @@ router.beforeEach((to, from, next) => {
     }
     next();
 });
-
+router.afterEach(() => {
+    NProgress.done();
+});
 export default router;

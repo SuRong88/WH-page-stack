@@ -24,11 +24,7 @@ export default {
         };
     },
     created() {
-        console.log('list created');
         this.init();
-    },
-    mounted() {
-        console.log('list mounted');
     },
     methods: {
         init() {

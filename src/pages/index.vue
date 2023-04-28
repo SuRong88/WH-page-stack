@@ -18,7 +18,6 @@ export default {
         };
     },
     created() {
-        console.log('index created');
         this.init();
     },
     methods: {

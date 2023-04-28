@@ -43,7 +43,7 @@ export default {
 .tabbar {
     background-color: aquamarine;
     position: fixed;
-    z-index: 9999;
+    z-index: 99;
     left: 0;
     bottom: 0;
     padding-bottom: calc(0px + constant(safe-area-inset-bottom));
