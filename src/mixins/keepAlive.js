@@ -8,12 +8,16 @@ export default {
         };
     },
     created() {
+        console.log(document.documentElement.scrollTop);
         const routeName = this.$route.name;
         console.log(`${routeName} created`);
     },
     mounted() {
         const routeName = this.$route.name;
         console.log(`${routeName} mounted`);
+        setTimeout(() => {
+            this.setPosition(true);
+        }, 500);
     },
     activated() {
         const routeName = this.$route.name;
