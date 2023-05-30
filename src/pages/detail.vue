@@ -37,13 +37,10 @@
     </div>
 </template>
 <script>
-import keepAliveMixin from '@/mixins/keepAlive';
 export default {
     name: 'Detail',
-    mixins: [keepAliveMixin],
     data() {
         return {
-            firstActivatedInPage: true,
             loading: false,
             formData: {
                 id: '',
@@ -54,20 +51,28 @@ export default {
         };
     },
     watch: {
-        $route: {
-            deep: true,
-            handler(newValue, oldValue) {
-                console.log(newValue, oldValue);
-                const isJumpCurrentPage = newValue.path === '/detail' && oldValue.path === '/detail';
-                if (isJumpCurrentPage) {
-                    console.log('当前页变化');
-                    this.reload(newValue.name);
-                }
-            }
-        }
+        // $route: {
+        //     deep: true,
+        //     handler(newValue, oldValue) {
+        //         // this.$message.success('页码改变')
+        //         // console.log(newValue, oldValue);
+        //         // const isJumpCurrentPage = newValue.path === '/detail' && oldValue.path === '/detail';
+        //         // if (isJumpCurrentPage) {
+        //         //     console.log('当前页变化');
+        //         //     this.reload(newValue.name);
+        //         // }
+        //     }
+        // }
     },
     created() {
+        console.log('detail created');
         this.init();
+        // this.$navigation.on('forward', (to, from) => {
+        //     console.log('forward监听：', to, from);
+        // })
+    },
+    beforeDestroy() {
+        
     },
     activated() {
         if (!this.firstActivatedInPage) {
@@ -90,29 +95,34 @@ export default {
                 this.loading = false;
             }, 500);
         },
-        jumpList(refresh) {
+        jumpList() {
             const query = {};
-            refresh && (query.refresh = 1);
             this.$router.push({
                 path: '/list',
                 query
             });
         },
         jumpDetail(id) {
-            // if(id)
-
+            if(id === this.$route.params.id * 1) {
+                return
+                console.log('id一样');
+            }
             const query = JSON.parse(JSON.stringify(this.$route.query));
-            query.id = id;
-            this.$router.push({
-                query,
+            // query.id = id;
+            // this.$router.replace({
+                this.$router.push({
+                // params: {
+                //     id
+                // },
+                // path: ''
+                path: '/detail/' + id,
+                // query,
             });
+            
         },
         jumpAddress() {
             this.$router.push({
-                path: '/address',
-                query: {
-                    refresh: 1
-                }
+                path: '/address'
             });
         },
         checkSelectAddress() {

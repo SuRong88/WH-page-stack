@@ -86,16 +86,7 @@ export default {
 		}
 	},
 	watch: {
-		$route(newValue, oldValue) {
-			// if(newValue.query.refresh) {
-			// 	console.log("don't do anything");
-			// 	return;
-			// }
-
-			// console.info(1, 'watch');
-
-			// this.setTags(newValue);
-		}
+		$route(newValue, oldValue) {}
 	},
 	created() {
 		this.setTags(this.$route);

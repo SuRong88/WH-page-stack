@@ -11,10 +11,8 @@
     </div>
 </template>
 <script>
-import keepAliveMixin from '@/mixins/keepAlive';
 export default {
     name: 'List',
-    mixins: [keepAliveMixin],
     data() {
         return {
             loading: true,
@@ -24,6 +22,7 @@ export default {
         };
     },
     created() {
+        console.log('list created');
         this.init();
     },
     methods: {
@@ -47,11 +46,11 @@ export default {
         },
         jumpDetail(id) {
             this.$router.push({
-                path: '/detail',
-                query: {
-                    id,
-                    refresh: 1
-                }
+                path: '/detail/' + id,
+                // query: {
+                //     id,
+                //     refresh: 1
+                // }
             });
         },
     }

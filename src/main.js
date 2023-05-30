@@ -6,7 +6,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import api from './api/index';
 import router from './router';
-// import store from './store';
+import store from './store';
 
 import request from './utils/request';
 import formCheck from './utils/formCheck';
@@ -24,21 +24,21 @@ import './assets/css/table-container.less';
 
 import 'babel-polyfill';
 
-import DateRangePicker from '@/components/date-range-picker'
+// import Navigation from '../lib/vue-navigation.esm'
+import Navigation from '../navigation/index.js'
+Vue.use(Navigation, { router, store })
 
-Vue.use(formCheck);
+// Vue.use(formCheck);
 Vue.use(layout);
-Vue.use(directive);
-Vue.use(clipboard);
+// Vue.use(directive);
+// Vue.use(clipboard);
 Vue.use(ElementUI);
-
-Vue.component('DateRangePicker', DateRangePicker)
 
 //vue原型链挂载总线
 Vue.prototype.$Bus = new Vue();
 
 window.vm = new Vue({
     router,
-    // store,
+    store,
     render: h => h(App)
 }).$mount('#app');

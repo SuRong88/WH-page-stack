@@ -2,11 +2,12 @@
     <div class="wrapper">
         <v-navbar></v-navbar>
         <!-- <transition name="fade-transform" mode="out-in"> -->
-            <keep-alive :include="tagsList"><router-view v-if="$route.meta.keepAlive && isRouterAlive"></router-view></keep-alive>
+            <!-- <keep-alive :include="tagsList"><router-view v-if="$route.meta.keepAlive && isRouterAlive"></router-view></keep-alive> -->
         <!-- </transition> -->
         <!-- <transition name="fade-transform" mode="out-in"> -->
-            <router-view v-if="!$route.meta.keepAlive && isRouterAlive"></router-view>
+            <!-- <router-view v-if="!$route.meta.keepAlive && isRouterAlive"></router-view> -->
         <!-- </transition> -->
+            <router-view></router-view>
         <v-tabbar></v-tabbar>
     </div>
 </template>

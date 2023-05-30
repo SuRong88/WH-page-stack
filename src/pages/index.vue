@@ -6,10 +6,8 @@
     </div>
 </template>
 <script>
-import keepAliveMixin from '@/mixins/keepAlive';
 export default {
     name: 'Index',
-    mixins: [keepAliveMixin],
     data() {
         return {
             loading: true,
@@ -18,15 +16,13 @@ export default {
         };
     },
     created() {
+        console.log('index created');
         this.init();
     },
     methods: {
         jump() {
             this.$router.push({
                 path: '/list',
-                query: {
-                    refresh: 1
-                }
             });
         },
         init() {
