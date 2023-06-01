@@ -34,8 +34,8 @@ export default {
         ) && from.query[keyName]) {
           query[keyName] = from.query[keyName]
         } else {
-          const key = to.meta.isTabbar ? `tab-${genKey()}` : genKey()
-          query[keyName] = key
+          // const key = to.meta.isTabbar ? `tab-${genKey()}` : genKey()
+          query[keyName] = genKey()
         }
         next({ name: to.name, params: to.params, query, replace: replaceFlag || !from.query[keyName] })
       } else {

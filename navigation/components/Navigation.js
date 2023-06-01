@@ -4,18 +4,25 @@ import { getKey, matches, remove, getFirstComponentChild } from '../utils';
 const patternTypes = [String, RegExp, Array];
 
 const pruneCacheEntry = (cache, keys) => {
-    for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];
-        if (!key.includes('?tab')) {
-            const vnode = cache[key];
-            vnode && vnode.componentInstance.$destroy();
-            delete cache[key];
+    const key = keys[0];
+    const vnode = cache[key];
+    vnode && vnode.componentInstance.$destroy();
+    delete cache[key];
+    remove(keys, key);
+    //         remove(keys, key);
+    // for (let i = 0; i < keys.length; i++) {
+    //     const key = keys[i];
+    //     const name = key.split('?')[0]
+    //     if (!tabbars.includes(name)) {
+    //         const vnode = cache[key];
+    //         vnode && vnode.componentInstance.$destroy();
+    //         delete cache[key];
 
-            remove(keys, key);
-            console.log('pruneCacheEntry', key);
-            break;
-        }
-    }
+    //         remove(keys, key);
+    //         console.log('pruneCacheEntry', name, key);
+    //         break;
+    //     }
+    // }
 };
 
 export default keyName => {
@@ -23,15 +30,31 @@ export default keyName => {
         name: 'navigation',
         abstract: true,
         props: {
-            include: patternTypes,
-            exclude: patternTypes,
             max: [String, Number]
         },
         data: () => ({
             routes: Routes
         }),
-        watch: {
-            routes(val) {
+        // watch: {
+            // routes(val) {
+                // console.log('watch 1', val);
+                // for (const key in this.cache) {
+                //     if (!matches(val, key)) {
+                //         const vnode = this.cache[key];
+                //         vnode && vnode.componentInstance.$destroy();
+                //         delete this.cache[key];
+
+                //         remove(this.keys, key);
+                //     }
+                // }
+            // }
+        // },
+        created() {
+            this.cache = {};
+            this.keys = [];
+            
+            this.$watch('routes', function (val) {
+                console.log('watch 2', val);
                 for (const key in this.cache) {
                     if (!matches(val, key)) {
                         const vnode = this.cache[key];
@@ -41,11 +64,7 @@ export default keyName => {
                         remove(this.keys, key);
                     }
                 }
-            }
-        },
-        created() {
-            this.cache = {};
-            this.keys = [];
+            });
         },
         destroyed() {
             for (const key in this.cache) {

@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<navigation :max="2">
+		<navigation :max="2" :tabbars="['Index', 'List']">
 			<router-view></router-view>
 		</navigation>
 	</div>
