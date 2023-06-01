@@ -40,3 +40,31 @@ export function isObjEqual(obj1, obj2) {
     return true;
   }
 }
+ 
+export function isDef (v) {
+  return v !== undefined && v !== null
+}
+
+export function isAsyncPlaceholder (node) {
+  return node.isComment && node.asyncFactory
+}
+
+export function getFirstComponentChild (children) {
+  if (Array.isArray(children)) {
+    for (var i = 0; i < children.length; i++) {
+      var c = children[i];
+      if (isDef(c) && (isDef(c.componentOptions) || isAsyncPlaceholder(c))) {
+        return c
+      }
+    }
+  }
+}
+
+export function remove (arr, item) {
+  if (arr.length) {
+    var index = arr.indexOf(item);
+    if (index > -1) {
+      return arr.splice(index, 1)
+    }
+  }
+}

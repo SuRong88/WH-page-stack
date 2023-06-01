@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<navigation>
+		<navigation :max="2">
 			<router-view></router-view>
 		</navigation>
 	</div>
@@ -8,7 +8,7 @@
 <script>
 export default {
 	created() {
-		this.$navigation.on('forward', () => {
+		this.$navigation.on('forward', (to, from) => {
 			console.log('App.vue forward 重置页面高度');
       		document.documentElement.scrollTop = 0
 		})

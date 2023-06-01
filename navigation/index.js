@@ -12,7 +12,7 @@ export default {
 
     const bus = new Vue()
     const navigator = Navigator(bus, store, moduleName, keyName)
-    const scrollTopMap = {}
+    // const scrollTopMap = {}
 
     // hack vue-router replace for replaceFlag
     const routerReplace = router.replace.bind(router)
@@ -34,7 +34,8 @@ export default {
         ) && from.query[keyName]) {
           query[keyName] = from.query[keyName]
         } else {
-          query[keyName] = genKey()
+          const key = to.meta.isTabbar ? `tab-${genKey()}` : genKey()
+          query[keyName] = key
         }
         next({ name: to.name, params: to.params, query, replace: replaceFlag || !from.query[keyName] })
       } else {

@@ -23,7 +23,7 @@ export default {
                 },
                 {
                     name: '详情',
-                    path: '/detail?id=3'
+                    path: '/detail/3'
                 },
                 {
                     name: '地址',
