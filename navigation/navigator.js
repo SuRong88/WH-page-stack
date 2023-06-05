@@ -73,7 +73,7 @@ export default (bus, store, moduleName, keyName) => {
   }
 
   const record = (toRoute, fromRoute, replaceFlag) => {
-    console.log('record');
+    // console.log('record');
     const name = getKey(toRoute, keyName)
     if (replaceFlag) {
       replace(name, toRoute, fromRoute)
@@ -82,7 +82,6 @@ export default (bus, store, moduleName, keyName) => {
       if (toIndex === -1) {
         forward(name, toRoute, fromRoute)
       } else if (toIndex === Routes.length - 1) {
-        console.log('refresh');
         refresh(toRoute, fromRoute)
       } else {
         back(Routes.length - 1 - toIndex, toRoute, fromRoute)

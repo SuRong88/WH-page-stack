@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<navigation :max="2" :tabbars="['Index', 'List']">
+		<navigation :max="4" :tabbars="['Index', 'List']">
 			<router-view></router-view>
 		</navigation>
 	</div>
@@ -10,6 +10,10 @@ export default {
 	created() {
 		this.$navigation.on('forward', (to, from) => {
 			console.log('App.vue forward 重置页面高度');
+			// if(to.meta.isTabbar) {
+			// 	console.log('tabbar保持滚动高度');
+			// 	return
+			// }
       		document.documentElement.scrollTop = 0
 		})
 	},

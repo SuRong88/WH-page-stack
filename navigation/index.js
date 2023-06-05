@@ -50,7 +50,6 @@ export default {
 
     // record router change
     router.afterEach((to, from) => {
-      console.log('afterEach');
       // const toKey = `${to.name}-${to.query[keyName]}`
       // document.documentElement.scrollTop = scrollTopMap[toKey] || 0
 

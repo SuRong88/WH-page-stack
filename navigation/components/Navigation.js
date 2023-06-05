@@ -1,28 +1,48 @@
 import Routes from '../routes';
 import { getKey, matches, remove, getFirstComponentChild } from '../utils';
 
-const patternTypes = [String, RegExp, Array];
+// 替换tabbar缓存
+const updateTabbarCache = (routes, cache, keys, key, oldKey, vnode) => {
+    const isForward = !routes.includes(key)
+    const name = key.split('?')[0]
+    const replace = (_key, _oldKey) => {
+        vnode.key = vnode.isComment ? 'comment' : vnode.tag;
+        vnode.key = `__navigation-${_key}-${vnode.key}`;
+        cache[_key] = cache[_oldKey]
+        cache[_key].key = vnode.key
+        delete cache[_oldKey]
 
-const pruneCacheEntry = (cache, keys) => {
-    const key = keys[0];
-    const vnode = cache[key];
-    vnode && vnode.componentInstance.$destroy();
-    delete cache[key];
-    remove(keys, key);
-    //         remove(keys, key);
-    // for (let i = 0; i < keys.length; i++) {
-    //     const key = keys[i];
-    //     const name = key.split('?')[0]
-    //     if (!tabbars.includes(name)) {
-    //         const vnode = cache[key];
-    //         vnode && vnode.componentInstance.$destroy();
-    //         delete cache[key];
+        remove(keys, _oldKey)
+        keys.push(_key)
+    }
+    if(isForward) {
+        replace(key, oldKey)
+    } else {
+        for(let _oldKey in cache) {
+            const _oldName = _oldKey.split('?')[0]
+            if(_oldKey !== key && _oldName === name) {
+                replace(key, _oldKey)
+                break;
+            }
+        }
+    }
+};
 
-    //         remove(keys, key);
-    //         console.log('pruneCacheEntry', name, key);
-    //         break;
-    //     }
-    // }
+// 清除超出缓存
+const pruneCacheEntry = (cache, keys, tabbars) => {
+    for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const name = key.split('?')[0]
+        if (!tabbars.includes(name)) {
+            const vnode = cache[key];
+            vnode && vnode.componentInstance.$destroy();
+            delete cache[key];
+
+            remove(keys, key);
+            console.log('pruneCacheEntry', name, key);
+            break;
+        }
+    }
 };
 
 export default keyName => {
@@ -30,38 +50,40 @@ export default keyName => {
         name: 'navigation',
         abstract: true,
         props: {
-            max: [String, Number]
+            tabbars: {
+                type: Array,
+                default: () => []
+            },
+            max: {
+                type: Number,
+                default: 99
+            }
         },
         data: () => ({
             routes: Routes
         }),
-        // watch: {
-            // routes(val) {
-                // console.log('watch 1', val);
-                // for (const key in this.cache) {
-                //     if (!matches(val, key)) {
-                //         const vnode = this.cache[key];
-                //         vnode && vnode.componentInstance.$destroy();
-                //         delete this.cache[key];
-
-                //         remove(this.keys, key);
-                //     }
-                // }
-            // }
-        // },
         created() {
             this.cache = {};
             this.keys = [];
-            
+
+            if(this.max <= this.tabbars.length) {
+                console.error('vue-navigation[warn]: max value must over tabbars length')
+            }
+
             this.$watch('routes', function (val) {
-                console.log('watch 2', val);
                 for (const key in this.cache) {
                     if (!matches(val, key)) {
-                        const vnode = this.cache[key];
-                        vnode && vnode.componentInstance.$destroy();
-                        delete this.cache[key];
-
-                        remove(this.keys, key);
+                        const name = key.split('?')[0]
+                        if(!this.tabbars.includes(name)) {
+                            const vnode = this.cache[key];
+                            vnode && vnode.componentInstance.$destroy();
+                            delete this.cache[key];
+                            remove(this.keys, key);
+                        } else {
+                            // 回退时, 把tabbar页面放在keys的最前面
+                            remove(this.keys, key);
+                            this.keys.unshift(key)
+                        }
                     }
                 }
             });
@@ -83,7 +105,17 @@ export default keyName => {
                 if (vnode.key.indexOf(key) === -1) {
                     vnode.key = `__navigation-${key}-${vnode.key}`;
                 }
+                
+                const name = key.split('?')[0]
+                const index = this.keys.findIndex(item => item.split('?')[0] === name)
+                if(this.tabbars.includes(name) && index > -1) {
+                    const oldKey = this.keys[index]
+                    // debugger
+                    updateTabbarCache(this.routes, this.cache, this.keys, key, oldKey, vnode)
+                }
+
                 if (this.cache[key]) {
+                    console.log(1);
                     if (vnode.key === this.cache[key].key) {
                         // restore vnode from cache
                         vnode.componentInstance = this.cache[key].componentInstance;
@@ -93,8 +125,9 @@ export default keyName => {
                         this.cache[key] = vnode;
                     }
                 } else {
-                    if (this.max && this.keys.length >= parseInt(this.max)) {
-                        pruneCacheEntry(this.cache, this.keys);
+                    console.log(2);
+                    if (this.max && this.keys.length >= this.max) {
+                        pruneCacheEntry(this.cache, this.keys, this.tabbars);
                     }
                     // cache new vnode
                     this.cache[key] = vnode;
@@ -102,7 +135,6 @@ export default keyName => {
                 }
                 console.log('cache: ', this.cache);
                 console.log('keys: ', this.keys);
-                // console.log(6666666);
                 vnode.data.keepAlive = true;
             }
             return vnode || (slot && slot[0]);
