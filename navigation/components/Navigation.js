@@ -3,7 +3,7 @@ import { getKey, matches, remove, getFirstComponentChild } from '../utils';
 
 // 替换tabbar缓存
 const updateTabbarCache = (routes, cache, keys, key, oldKey, vnode) => {
-    const isForward = !routes.includes(key)
+    const isBack = routes.includes(key)
     const name = key.split('?')[0]
     const replace = (_key, _oldKey) => {
         vnode.key = vnode.isComment ? 'comment' : vnode.tag;
@@ -15,9 +15,7 @@ const updateTabbarCache = (routes, cache, keys, key, oldKey, vnode) => {
         remove(keys, _oldKey)
         keys.push(_key)
     }
-    if(isForward) {
-        replace(key, oldKey)
-    } else {
+    if(isBack) {
         for(let _oldKey in cache) {
             const _oldName = _oldKey.split('?')[0]
             if(_oldKey !== key && _oldName === name) {
@@ -25,6 +23,8 @@ const updateTabbarCache = (routes, cache, keys, key, oldKey, vnode) => {
                 break;
             }
         }
+    } else { // foward or replace
+        replace(key, oldKey)
     }
 };
 
