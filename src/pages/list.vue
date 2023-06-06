@@ -1,14 +1,16 @@
 <template>
-    <div class="page page-list" v-loading="loading">
-        <el-input v-model="name"></el-input>
-        <el-input v-model="num"></el-input>
-        <li v-for="item in list" class="item">
-            <div class="item-scroll">
-                <!-- <p v-for="num in 20" class="">{{ num }}</p> -->
-            </div>
-            <button class="btn" @click="jumpDetail(item.id)">详情---{{ item.id }}</button>
-        </li>
-    </div>
+    <page>
+        <div class="page page-list" v-loading="loading">
+            <el-input v-model="name"></el-input>
+            <el-input v-model="num"></el-input>
+            <li v-for="item in list" class="item">
+                <div class="item-scroll">
+                    <!-- <p v-for="num in 20" class="">{{ num }}</p> -->
+                </div>
+                <button class="btn" @click="jumpDetail(item.id)">详情---{{ item.id }}</button>
+            </li>
+        </div>
+    </page>
 </template>
 <script>
 export default {
@@ -46,13 +48,13 @@ export default {
         },
         jumpDetail(id) {
             this.$router.push({
-                path: '/detail/' + id,
+                path: '/detail/' + id
                 // query: {
                 //     id,
                 //     refresh: 1
                 // }
             });
-        },
+        }
     }
 };
 </script>

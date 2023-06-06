@@ -1,7 +1,7 @@
 <template>
     <page>
         <div>
-            anything
+            部门管理
         </div>
     </page>
 </template>
@@ -11,7 +11,7 @@ export default {
         return {};
     },
     created() {
-        console.log('other created');
+        console.log('department created');
     }
 };
 </script>

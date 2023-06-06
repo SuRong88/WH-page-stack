@@ -18,17 +18,17 @@ export default {
                     path: '/index'
                 },
                 {
-                    name: '列表',
-                    path: '/list'
+                    name: '管理',
+                    path: '/manage'
                 },
                 {
-                    name: '详情',
-                    path: '/detail/3'
+                    name: '我的',
+                    path: '/me'
                 },
-                {
-                    name: '地址',
-                    path: '/address'
-                }
+                // {
+                //     name: '地址',
+                //     path: '/address'
+                // }
             ]
         };
     },

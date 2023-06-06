@@ -1,14 +1,20 @@
 <template>
-    <div class="page page-address" v-loading="loading">
-        <div class="flex">
-            <el-input v-model="keyword"></el-input>
-            <!-- <el-button class="ml10" @click="reload($route.name)">刷新</el-button> -->
-            <el-button class="ml10" @click="search">搜索</el-button>
+    <page>
+        <div class="page page-address" v-loading="loading">
+            <div class="flex">
+                <el-input v-model="keyword"></el-input>
+                <!-- <el-button class="ml10" @click="reload($route.name)">刷新</el-button> -->
+                <el-button class="ml10" @click="search">搜索</el-button>
+            </div>
+            <ul class="address-list">
+                <li class="item" v-for="item in list" @click="clickItem(item)">{{ item }}</li>
+            </ul>
+            <el-button @click="jump('/index', true)">首页（replace）</el-button>
+            <el-button class="ml10" @click="jump('/index', false)">首页</el-button>
+            <el-button class="ml10" @click="jump('/other', true)">其他页（replace）</el-button>
+            <el-button class="ml10" @click="jump('/other', false)">其他页</el-button>
         </div>
-        <ul class="address-list">
-            <li class="item" v-for="item in list" @click="clickItem(item)">{{ item }}</li>
-        </ul>
-    </div>
+    </page>
 </template>
 <script>
 export default {
@@ -45,6 +51,13 @@ export default {
             // const address = `联系地址：${this.convertToChinaNum(item)}`;
             sessionStorage.setItem('address', address);
             this.$router.back();
+        },
+        jump(path, isRedirect) {
+            if (isRedirect) {
+                this.$router.replace(path);
+            } else {
+                this.$router.push(path);
+            }
         }
     }
 };

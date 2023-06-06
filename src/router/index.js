@@ -17,42 +17,6 @@ export const routes = [
         path: '/',
         redirect: '/index'
     },
-    // {
-    //     name: 'Index',
-    //     path: '/index',
-    //     component: resolve => require(['@/pages/index'], resolve),
-    //     meta: {
-    //         title: '首页',
-    //         // keepAlive: true
-    //     }
-    // },
-    // {
-    //     name: 'List',
-    //     path: '/list',
-    //     component: resolve => require(['@/pages/list'], resolve),
-    //     meta: {
-    //         title: '列表',
-    //         keepAlive: true
-    //     }
-    // },
-    // {
-    //     name: 'Detail',
-    //     path: '/detail/:id',
-    //     component: resolve => require(['@/pages/detail'], resolve),
-    //     meta: {
-    //         title: '详情',
-    //         keepAlive: true
-    //     }
-    // },
-    // {
-    //     name: 'Address',
-    //     path: '/address',
-    //     component: resolve => require(['@/pages/address'], resolve),
-    //     meta: {
-    //         title: '地址',
-    //         keepAlive: true
-    //     }
-    // }
     {
         path: '/',
         component: resolve => require(['@/components/common/Home.vue'], resolve),
@@ -67,38 +31,108 @@ export const routes = [
                 meta: {
                     title: '首页',
                     isTabbar: true
-                    // keepAlive: true
                 }
             },
             {
-                name: 'List',
-                path: 'list',
-                component: resolve => require(['@/pages/list'], resolve),
+                name: 'Manage',
+                path: 'manage',
+                component: resolve => require(['@/pages/manage'], resolve),
                 meta: {
-                    title: '列表',
+                    title: '管理',
                     isTabbar: true
-                    // keepAlive: true,
                 }
             },
+            
             {
-                name: 'Detail',
-                path: 'detail/:id',
-                component: resolve => require(['@/pages/detail'], resolve),
+                name: 'Me',
+                path: 'me',
+                component: resolve => require(['@/pages/me'], resolve),
                 meta: {
-                    title: '详情',
-                    keepAlive: true
+                    title: '我的',
+                    isTabbar: true
                 }
             },
-            {
-                name: 'Address',
-                path: 'address',
-                component: resolve => require(['@/pages/address'], resolve),
-                meta: {
-                    title: '地址',
-                    keepAlive: true
-                }
-            }
+            // {
+            //     name: 'List',
+            //     path: 'list',
+            //     component: resolve => require(['@/pages/list'], resolve),
+            //     meta: {
+            //         title: '列表',
+            //     }
+            // },
+            // {
+            //     name: 'Detail',
+            //     path: 'detail/:id',
+            //     component: resolve => require(['@/pages/detail'], resolve),
+            //     meta: {
+            //         title: '详情',
+            //     }
+            // },
+            // {
+            //     name: 'Address',
+            //     path: 'address',
+            //     component: resolve => require(['@/pages/address'], resolve),
+            //     meta: {
+            //         title: '地址',
+            //     }
+            // },
+            // {
+            //     name: 'Other',
+            //     path: 'other',
+            //     component: resolve => require(['@/pages/other'], resolve),
+            //     meta: {
+            //         title: '其他',
+            //     }
+            // }
         ]
+    },
+    {
+        name: 'List',
+        path: '/list',
+        component: resolve => require(['@/pages/list'], resolve),
+        meta: {
+            title: '列表',
+        }
+    },
+    {
+        name: 'Detail',
+        path: '/detail/:id',
+        component: resolve => require(['@/pages/detail'], resolve),
+        meta: {
+            title: '详情',
+        }
+    },
+    {
+        name: 'Address',
+        path: '/address',
+        component: resolve => require(['@/pages/address'], resolve),
+        meta: {
+            title: '地址',
+        }
+    },
+    {
+        name: 'Other',
+        path: '/other',
+        component: resolve => require(['@/pages/other'], resolve),
+        meta: {
+            title: '其他',
+        }
+    },
+    {
+        name: 'Department',
+        path: '/department',
+        component: resolve => require(['@/pages/department'], resolve),
+        meta: {
+            title: '部门管理',
+        }
+    },
+    {
+        name: 'Info',
+        path: '/info',
+        component: resolve => require(['@/pages/info'], resolve),
+        meta: {
+            title: '个人信息',
+        }
     }
 ];
 

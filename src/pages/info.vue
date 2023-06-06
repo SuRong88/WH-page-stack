@@ -1,7 +1,7 @@
 <template>
     <page>
         <div>
-            anything
+            个人信息
         </div>
     </page>
 </template>
@@ -11,7 +11,7 @@ export default {
         return {};
     },
     created() {
-        console.log('other created');
+        console.log('info created');
     }
 };
 </script>

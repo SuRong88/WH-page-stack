@@ -1,40 +1,42 @@
 <template>
-    <div class="page page-detail" v-loading="loading">
-        <el-divider content-position="left">表单</el-divider>
-        <el-form v-model="formData" label-width="60px">
-            <el-form-item label="ID">
-                <div class="flex">
-                    <el-input v-model="formData.id" disabled></el-input>
+    <page>
+        <div class="page page-detail" v-loading="loading">
+            <el-divider content-position="left">表单</el-divider>
+            <el-form v-model="formData" label-width="60px">
+                <el-form-item label="ID">
+                    <div class="flex">
+                        <el-input v-model="formData.id" disabled></el-input>
+                    </div>
+                </el-form-item>
+                <el-form-item label="姓名">
+                    <div class="flex">
+                        <el-input v-model="formData.name"></el-input>
+                    </div>
+                </el-form-item>
+                <el-form-item label="手机">
+                    <div class="flex">
+                        <el-input v-model="formData.phone"></el-input>
+                    </div>
+                </el-form-item>
+                <el-form-item label="地址">
+                    <div class="flex">
+                        <el-input v-model="formData.address" disabled></el-input>
+                        <el-button class="ml10" @click="jumpAddress">选择</el-button>
+                    </div>
+                </el-form-item>
+            </el-form>
+            <el-divider content-position="left">按钮</el-divider>
+            <el-button @click="reload($route.name)">刷新</el-button>
+            <el-button @click="jumpList(false)">列表（不刷新）</el-button>
+            <el-button @click="jumpList(true)">列表（刷新）</el-button>
+            <el-divider content-position="left">其他推荐</el-divider>
+            <div class="recommend-list">
+                <div class="item" v-for="num in 25" @click="jumpDetail(num)">
+                    {{ num }}
                 </div>
-            </el-form-item>
-            <el-form-item label="姓名">
-                <div class="flex">
-                    <el-input v-model="formData.name"></el-input>
-                </div>
-            </el-form-item>
-            <el-form-item label="手机">
-                <div class="flex">
-                    <el-input v-model="formData.phone"></el-input>
-                </div>
-            </el-form-item>
-            <el-form-item label="地址">
-                <div class="flex">
-                    <el-input v-model="formData.address" disabled></el-input>
-                    <el-button class="ml10" @click="jumpAddress">选择</el-button>
-                </div>
-            </el-form-item>
-        </el-form>
-        <el-divider content-position="left">按钮</el-divider>
-        <el-button @click="reload($route.name)">刷新</el-button>
-        <el-button @click="jumpList(false)">列表（不刷新）</el-button>
-        <el-button @click="jumpList(true)">列表（刷新）</el-button>
-        <el-divider content-position="left">其他推荐</el-divider>
-        <div class="recommend-list">
-            <div class="item" v-for="num in 25" @click="jumpDetail(num)">
-                {{ num }}
             </div>
         </div>
-    </div>
+    </page>
 </template>
 <script>
 export default {
@@ -71,9 +73,7 @@ export default {
         //     console.log('forward监听：', to, from);
         // })
     },
-    beforeDestroy() {
-        
-    },
+    beforeDestroy() {},
     activated() {
         if (!this.firstActivatedInPage) {
             console.log('Detail activated 检查地址');
@@ -103,22 +103,16 @@ export default {
             });
         },
         jumpDetail(id) {
-            if(id === this.$route.params.id * 1) {
-                return
+            if (id === this.$route.params.id * 1) {
+                return;
                 console.log('id一样');
             }
             const query = JSON.parse(JSON.stringify(this.$route.query));
-            // query.id = id;
-            // this.$router.replace({
-                this.$router.push({
-                // params: {
-                //     id
-                // },
-                // path: ''
+            query.id = id;
+            this.$router.push({
                 path: '/detail/' + id,
-                // query,
+                // query
             });
-            
         },
         jumpAddress() {
             this.$router.push({

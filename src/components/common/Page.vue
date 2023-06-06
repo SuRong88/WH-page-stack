@@ -1,19 +1,17 @@
 <template>
     <div class="wrapper">
         <v-navbar></v-navbar>
-        <router-view></router-view>
-        <v-tabbar></v-tabbar>
+        <!-- <router-view></router-view> -->
+        <slot />
     </div>
 </template>
 
 <script>
 import vNavbar from './Navbar.vue';
-import vTabbar from './Tabbar.vue';
 
 export default {
     components: {
         vNavbar,
-        vTabbar
     },
 };
 </script>
