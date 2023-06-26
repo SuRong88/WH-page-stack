@@ -1,4 +1,5 @@
 import Routes from '../routes';
+import scrollTopMap, {removeScrollTop} from '../scrollTopMap'
 import { getKey, matches, remove, getFirstComponentChild } from '../utils';
 
 // 替换tabbar缓存
@@ -84,6 +85,15 @@ export default keyName => {
                             remove(this.keys, key);
                             this.keys.unshift(key)
                         }
+                    }
+                }
+
+                for (const key in scrollTopMap) {
+                    if (!matches(val, key)) {
+                        const name = key.split('?')[0]
+                        if(!this.tabbars.includes(name)) {
+                            removeScrollTop(key, this.tabbars.includes(name))
+                        } 
                     }
                 }
             });

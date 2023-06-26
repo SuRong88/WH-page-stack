@@ -1,7 +1,8 @@
 import Routes from './routes'
+import scrollTopMap, {setScrollTop, getScrollTop} from './scrollTopMap'
 import Navigator from './navigator'
 import NavComponent from './components/Navigation'
-import { genKey, isObjEqual } from './utils'
+import { genKey, getKey, isObjEqual } from './utils'
 
 export default {
   install: (Vue, { router, store, moduleName = 'navigation', keyName = 'VNK' } = {}) => {
@@ -12,7 +13,6 @@ export default {
 
     const bus = new Vue()
     const navigator = Navigator(bus, store, moduleName, keyName)
-    // const scrollTopMap = {}
 
     // hack vue-router replace for replaceFlag
     const routerReplace = router.replace.bind(router)
@@ -34,24 +34,27 @@ export default {
         ) && from.query[keyName]) {
           query[keyName] = from.query[keyName]
         } else {
-          // const key = to.meta.isTabbar ? `tab-${genKey()}` : genKey()
           query[keyName] = genKey()
         }
         next({ name: to.name, params: to.params, query, replace: replaceFlag || !from.query[keyName] })
       } else {
-        // if(from.query[keyName]) {
-        //   const fromKey = `${from.name}-${from.query[keyName]}`
-        //   scrollTopMap[fromKey] = document.documentElement.scrollTop
-        //   console.log(scrollTopMap);
-        // }
+        if(from.query[keyName]) { // equal false when redirect from '/' 
+          const toKey = getKey(to, keyName)
+          const fromKey = getKey(from, keyName)
+          const isBack = Routes.includes(toKey)
+          console.log('isBack: ', isBack);
+          if(!isBack || from.meta.isTabbar) {
+            setScrollTop(fromKey, from.meta.isTabbar)
+          }
+        }
         next()
       }
     })
 
     // record router change
     router.afterEach((to, from) => {
-      // const toKey = `${to.name}-${to.query[keyName]}`
-      // document.documentElement.scrollTop = scrollTopMap[toKey] || 0
+      const toKey = getKey(to, keyName)
+      getScrollTop(toKey, to.meta.isTabbar)
 
       navigator.record(to, from, replaceFlag)
       replaceFlag = false
